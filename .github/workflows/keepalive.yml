@@ -11,10 +11,6 @@ jobs:
     steps:
       - name: Ping health endpoint
         env:
-          API_URL: ${{ vars.SHADOW_SLAVE_API_URL }}
+          API_URL: ${{ vars.SHADOW_SLAVE_API_URL || 'https://shadow-slave-api.onrender.com' }}
         run: |
-          if [ -z "$API_URL" ]; then
-            echo "Set the repository variable SHADOW_SLAVE_API_URL first."
-            exit 0
-          fi
           curl --fail --silent --show-error --retry 2 --retry-delay 5 --max-time 60 "$API_URL/health"
