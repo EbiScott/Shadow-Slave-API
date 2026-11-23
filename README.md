@@ -76,7 +76,9 @@ The suite checks extraction, chapter parsing, alias resolution, every-volume cov
 | Variable | Default | Purpose |
 | --- | --- | --- |
 | `SHADOW_SLAVE_DB` | `data/quotes.db` | Override database path |
-| `ALLOWED_ORIGINS` | `https://0xk4m1.vercel.app` plus local dev ports | Comma-separated CORS origins |
+| `ALLOWED_ORIGINS` | `*` | Comma-separated CORS origins; `*` allows any site |
+
+This API is read-only, public, and does not use cookies or credentials, so open CORS is safe. It also means a new portfolio domain works without changing the API configuration. Set `ALLOWED_ORIGINS` to a comma-separated list if you want to restrict browser callers later.
 
 ## Deploy on Render
 
@@ -91,6 +93,12 @@ Render is the recommended host for this service. It supports a normal Python web
 4. Set `ALLOWED_ORIGINS` to your portfolio origin if it differs from `https://0xk4m1.vercel.app`.
 
 The free plan spins down after inactivity, so the first request after idle may be slower.
+
+### Keeping Render awake
+
+Webhooks are outbound notifications, not keepalive pings. Use a scheduled health check against `/health` every 8–10 minutes. Render sleeps after 15 minutes of inactivity, so anything under that window works.
+
+The included `.github/workflows/keepalive.yml` can do this if you set the repository variable `SHADOW_SLAVE_API_URL` to the deployed base URL. GitHub schedules can be delayed, so an external monitor such as UptimeRobot or cron-job.org is more reliable for a production keepalive. A paid Render instance removes the sleep behavior entirely.
 
 ### Why not Vercel
 

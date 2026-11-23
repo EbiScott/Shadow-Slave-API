@@ -80,6 +80,13 @@ def test_quote_search_filters_by_character():
     assert all(item["character"] == "Sunless" for item in payload["items"])
 
 
+def test_public_api_allows_any_origin():
+    response = client.get("/health", headers={"Origin": "https://example.com"})
+
+    assert response.status_code == 200
+    assert response.headers["access-control-allow-origin"] == "*"
+
+
 def test_unknown_character_and_quote_return_404():
     assert client.get("/v1/characters/NotARealCharacter").status_code == 404
     assert client.get("/v1/quotes/999999999").status_code == 404

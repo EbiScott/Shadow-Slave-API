@@ -11,4 +11,4 @@ services:
       - key: PYTHON_VERSION
         value: 3.12.7
       - key: ALLOWED_ORIGINS
-        value: https://0xk4m1.vercel.app
+        value: "*"

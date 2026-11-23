@@ -5,12 +5,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_DB = ROOT / "data" / "quotes.db"
-DEFAULT_ORIGINS = (
-    "https://0xk4m1.vercel.app",
-    "http://localhost:3000",
-    "http://localhost:4321",
-    "http://localhost:8081",
-)
+DEFAULT_ORIGINS = ("*",)
 
 
 def database_path() -> Path:
